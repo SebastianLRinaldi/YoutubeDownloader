@@ -44,7 +44,7 @@ def single_url_to_yt_object(url):
 # TODO Another method that determines if the URL is a playlist or single video, sharable URLS are different
 def playlist_url_to_playlist_object(url):
     try: 
-        playlist_object = Playlist('https://www.youtube.com/playlist?list=PLW-S5oymMexXTgRyT3BWVt_y608nt85Uj')
+        playlist_object = Playlist(url)
         print("Grabbed the YouTube Playlist Object")
         return playlist_object
     except(Exception) as e:
@@ -74,6 +74,29 @@ def url_list_to_yt_objects(yt_urls):
     return(yt_object)
 # =====================================
 
+def download_playlist_webm_to_mp3(url):
+    # TODO Add a feature that for each playlist make a folder with the name
+    # TODO To make this work will need to have a char checker and corrector like last time so files and directories can be made without issues
+    # TODO Make a log system or a tracker of failed and successed downloads and at what point they failed, if we have retrys enabled then log how many attemps it tried before giving up
+    # TODO On a fail or Age restricted video add a retry attempt like 10 if single or 5 if playlist idk some random number i Guess 
+
+    # TODO Add a feature where you check the playlist title and the list of songs and the count before commiting to the download process
+
+    # ! I am pretty sure we could cut down and go straight downloading from yt_objects instead of getting the links then to yt_objects
+
+    playlist_object = playlist_url_to_playlist_object(url)
+    playlist_urls = playlist_object_to_url_list(playlist_object)
+
+    # ! Add in multithreading and parell processing for playlist since it can be quite large 
+        # TODO Maybe throw in a estimated time for completion so we can compare when using fun computer optimzations 
+        # TODO Could be throwing this in earlier than the computer processing stuff for the feature to check if we want to commit
+    
+    # This will be a bigger goal 
+
+    for url in playlist_urls:
+        # ! Add a counter or tracker for seeing how much is left  to download from the playlist
+        single_videoURL_webm_to_mp3_stream_Download(url)
+        # ! Add a end card for when you are done downloading a playlist
 
 
 ########################################
@@ -396,9 +419,10 @@ def test1():
 # THE YOUTUBE DOWNLOADER MAIN
 ########################################
 def main():
-    # user = input("Enter URL: ")
-    user = "https://www.youtube.com/watch?v=tBHzkpoFl2c"
-    single_videoURL_mp4_to_mp3_stream_Download(user)
+    user = ""
+    while user != "EXIT":
+        user = input("Enter URL: ")
+        download_playlist_webm_to_mp3(user)
 
 
 main()
