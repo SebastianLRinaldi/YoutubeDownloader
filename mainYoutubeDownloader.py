@@ -1,6 +1,7 @@
 # TODO add try and excepts to all the download functions
 # TODO make it download playlists 
     # Playlist titles are new folders
+    # Title allowed characters, make it so it keeps Case and if not allowed, make alternative character list
     
 # TODO make it download music or video
 # TODO make it download bulk playlists
@@ -9,7 +10,7 @@
 # TODO make errors red when they are printed, don't want to raise errors since we want it to just work through it
 # TODO make a log system that tracks the videos downloaded and the playlist and the urls like playlistname.txt w/ then in the text file it would be yt_title - url
 # TODO with the Log system make it so that the files are downloaded in a temp folder first, then when process is done, check them and then send command to move the files to the thumb drive 
-
+# TODO Multiple load bars that show progress for each action per video, getting objects, downloading, converting..etc 
 # * https://www.geeksforgeeks.org/download-video-in-mp3-format-using-pytube/#
 
 from pytube import YouTube
@@ -249,7 +250,7 @@ def convert_to_mp3(stream, yt_object):
         full_path, ext = os.path.splitext(out_file)
         parent_dir = os.path.dirname(full_path)
         base = os.path.basename(full_path)
-        new_base_name = f"{itag}-{file_type}-{bitrate}-{base}"
+        new_base_name = f"{base}-{itag}-{file_type}-{bitrate}"
 
         new_file_name = f"{new_base_name}.mp3"
         new_file_path = os.path.join(parent_dir, new_file_name)
