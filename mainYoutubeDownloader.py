@@ -52,6 +52,29 @@ def playlist_url_to_playlist_object(url):
         print(f'Error with loading yt_playlist_object: {e}')
 
 
+##############################################################
+# GETTING MULTIPLE PLAYLIST OBJECTS FROM MULTIPLE PLAYLIST URL
+##############################################################
+def download_multiple_playlists():
+    playlist_urls = []
+    user = ""
+    playlist_count = len(playlist_urls)
+
+    print("\nType EXIT to start playlist downloads")
+    while user != "EXIT":
+        print("Enter URLS till you are done")
+        user = input("INPUT: ")
+        playlist_urls.append(user)
+    
+    if playlist_count < 1:
+        print("NO URLS ENTERED")
+    else:
+        print(f"Starting download for ")
+        for playlist_url in playlist_urls:
+             download_playlist_webm_to_mp3(playlist_url)
+
+
+
 ###########################################
 # GETTING YOUTUBE OBJECT FROM PLAYLIST OBJECT
 ###########################################
@@ -403,7 +426,6 @@ def single_videoURL_webm_to_mp3_stream_Download(url):
 # THE YOUTUBE DOWNLOADER TESTERS
 ########################################
 def test1():
-
     # youtube_object = load_yt_object_by_playlist_url("")
     # get_yt_url_from_playlist_object(youtube_object)
     youtube_object = single_url_to_yt_object("https://www.youtube.com/watch?v=tBHzkpoFl2c")
@@ -414,16 +436,33 @@ def test1():
 
 
 
+########################################
+# THE YOUTUBE DOWNLOADER COMMANDS MAIN
+########################################
+def startProgram():
+    commands_and_uses = {
+        "MP" : "Multiple Playlists Download",
+        "SP" : "Single Playlist Download",
+        "S" : "Single Video Download",
 
+    }
+
+    user = input("INPUT: ")
+
+    while user != "EXIT":
+        if user == "commands":
+            print("---- Commands ----\n")
+            for command in commands_and_uses:
+                print(f"\tKey: {command}, Description: {commands_and_uses[command]}")
+            print("---- End Commands ----\n")
+
+        elif user == "SP":
+            user = input("Enter URL: ")
+            download_playlist_webm_to_mp3(user)
+        
+        else:
+            print("INVALID COMMAND")
 
 ########################################
 # THE YOUTUBE DOWNLOADER MAIN
 ########################################
-def main():
-    user = ""
-    while user != "EXIT":
-        user = input("Enter URL: ")
-        download_playlist_webm_to_mp3(user)
-
-
-main()
