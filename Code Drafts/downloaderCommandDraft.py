@@ -183,7 +183,7 @@ def download_youtube_video_as_mp4(youtube_url, output_dir):
 def convert_mp4_to_mp3(mp4_file, mp3_file):
     videoclip = VideoFileClip(mp4_file)
     audioclip = videoclip.audio
-    audioclip.write_audiofile(mp3_file, bitrate="320k")
+    audioclip.write_audiofile(mp3_file, bitrate="192k")
     audioclip.close()
     videoclip.close()
 
