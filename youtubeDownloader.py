@@ -7,19 +7,19 @@ functions = {
         'function': YTD.download_multiple_playlists, 
         'description': "This function downloads multiple playlists",
         'default parameters': ['None'],
-        'parameters': ['While Loop -will need to type multiple playlist urls']
+        'needed parameters': ['While Loop -will need to type multiple playlist urls']
     },
     'SP': {
         'function': YTD.download_playlist_webm_to_mp3, 
         'description': "This function downloads a single playlist",
         'default parameters': ['None'],
-        'parameters': ['single playlist url']
+        'needed parameters': ['single playlist url']
     },
     'S': {
         'function': YTD.single_videoURL_webm_to_mp3_stream_Download, 
         'description': "This function downloads a single video",
         'default parameters': ['None'],
-        'parameters': ['single video url']
+        'needed parameters': ['single video url']
     }
 }
 
@@ -52,7 +52,7 @@ try:
     # In summary, if a function doesn't require user input, it will run without any parameters. For functions that do require input, user input always takes precedence over default parameters. If no user input is provided, the function will attempt to use default parameters if they exist. If no default parameters exist and the function requires parameters, an error will occur.
     #============================
     if None not in default_parameters: # If default parameters list does not have None
-        print(f"\nParamters neeed: {function_info['parameters']}")
+        print(f"\nParamters neeed: {function_info['needed parameters']}")
         # If parameter needed is 0 say Nothing and start doing the thing
         # If parameter needed is 1 say Enter a parameter
         # If parameter needed is 2 or mroe Enter parameter seperated by ,
