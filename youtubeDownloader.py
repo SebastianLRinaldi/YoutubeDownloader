@@ -27,6 +27,17 @@ functions = {
 # Get the user's choice
 userchoice = input("Enter your choice (MP, SP, S): ")
 
+
+
+
+
+# Check for command in dictionary using if statements vs the try:catch
+# if command in command_dict:
+#     result = command_dict[command](x, y)
+#     print("The result is {}".format(result))
+# else:
+#     print("Invalid command")
+
 try:
     function_info = functions[userchoice]
     print(f"\nYou have selected: {function_info['description']}")
@@ -60,6 +71,28 @@ try:
         # Or we could have it dynamically asks for the parameters since we have them stored as values in the function dictionary:
         # EX: for num of parameter in command-paramerter list -> ("Enter the dict[i]. Leave empty to use default parameters: defaultOption[i]") 
         # --> This could also give us the ability to have user options for default vs user
+
+
+
+    # def get_input(n):
+    #     # I can adjust this function to take in the length of parameters needed maybe instead of a num?
+    # inspect would be a good modual to have
+    #     return [int(input(f"Enter number {i+1}: ")) for i in range(n)]
+
+    # while not exit_command_received: 
+    #     command = input("Enter a command (or 'exit' to quit): ")
+    #     if command.lower() == 'exit':
+    #         exit_command_received = True
+    #     elif command in command_dict:
+    #         if command in ["add_subtract", "add_multiply"]:
+    #             numbers = get_input(3)
+    #         else:
+    #             numbers = get_input(2)
+    #         result = command_dict[command](*numbers)
+    #         print("The result is {}".format(result))
+    #     else:
+    #         print("Invalid command")
+
 
         userinput = input("Enter the parameters (separated by comma). Leave empty to use default parameters: ")
         if userinput: # if the user input is not empty, use the user's default parameters
