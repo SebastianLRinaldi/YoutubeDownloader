@@ -437,7 +437,7 @@ def test1():
 
 
 ########################################
-# THE YOUTUBE DOWNLOADER COMMANDS MAIN
+# THE YOUTUBE DOWNLOADER COMMANDS DRAFT
 ########################################
 def startProgram():
     commands_and_uses = {
