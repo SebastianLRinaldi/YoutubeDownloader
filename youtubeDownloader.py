@@ -1,4 +1,4 @@
-import mainYoutubeDownloader as YTD
+import youtubeDownloaderFunctions as YTD
 
 
 # This is the dictionary that maps commands to functions, descriptions, and parameters
