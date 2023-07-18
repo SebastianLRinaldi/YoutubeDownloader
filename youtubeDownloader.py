@@ -55,7 +55,12 @@ try:
         print(f"\nParamters neeed: {function_info['needed parameters']}")
         # If parameter needed is 0 say Nothing and start doing the thing
         # If parameter needed is 1 say Enter a parameter
-        # If parameter needed is 2 or mroe Enter parameter seperated by ,
+        # If parameter needed is 2 or mroe Enter parameter seperated by
+
+        # Or we could have it dynamically asks for the parameters since we have them stored as values in the function dictionary:
+        # EX: for num of parameter in command-paramerter list -> ("Enter the dict[i]. Leave empty to use default parameters: defaultOption[i]") 
+        # --> This could also give us the ability to have user options for default vs user
+
         userinput = input("Enter the parameters (separated by comma). Leave empty to use default parameters: ")
         if userinput: # if the user input is not empty, use the user's default parameters
             userparameters = userinput.split(',')
