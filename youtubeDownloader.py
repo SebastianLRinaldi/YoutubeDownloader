@@ -26,9 +26,7 @@ functions = {
 }
 
 def get_input(n):
-        # I can adjust this function to take in the length of parameters needed maybe instead of a num?
-        # inspect would be a good modual to have
-        return [input(f"Enter {functions[command]['needed parameters']}: ") for i in range(n)]
+        return [input(f"{functions[command]['description']}\nEnter {functions[command]['needed parameters'][i]}: ") for i in range(num_params)]
 
 
 # Call the appropriate function based on user choice
@@ -38,11 +36,19 @@ while not exit_command_received:
     command = input("Enter a command (or 'exit' to quit): ")
     if command.lower() == 'exit':
         exit_command_received = True
+
     elif command in functions:
         func = functions[command]['function']
         num_params = len(inspect.signature(func).parameters) # get number of parameters dynamically
-        print(int(num_params))
-        get_input(int(num_params))
+        print(num_params)
+
+        user_parameter = get_input(num_params)
+        print(user_parameter)
+        print(*user_parameter)
+
+        result = functions[command]['function'](*user_parameter)
+        print(result)
+
     else:
         print("Invalid command")
 
