@@ -1,35 +1,32 @@
 import inspect
-from commands import functions
+from command_mappings import functions
 
-
-
-
-def get_input(n):
+def get_input(num_params, command):
         return [input(f"{functions[command]['description']}\nEnter {functions[command]['needed parameters'][parameter_index]}: ") for parameter_index in range(num_params)]
 
+def execute_user_command():
+    # Call the appropriate function based on user choice
+    # Get the user's choice
+    exit_command_received = False
+    while not exit_command_received: 
+        command = input("Enter a command (or 'exit' to quit): ")
+        if command.lower() == 'exit':
+            exit_command_received = True
 
-# Call the appropriate function based on user choice
-# Get the user's choice
-exit_command_received = False
-while not exit_command_received: 
-    command = input("Enter a command (or 'exit' to quit): ")
-    if command.lower() == 'exit':
-        exit_command_received = True
+        elif command in functions:
+            selected_function = functions[command]['function']
+            num_params = len(inspect.signature(selected_function).parameters) # get number of parameters dynamically
+            print(num_params)
 
-    elif command in functions:
-        selected_function = functions[command]['function']
-        num_params = len(inspect.signature(selected_function).parameters) # get number of parameters dynamically
-        print(num_params)
+            user_parameter = get_input(num_params, command)
+            print(user_parameter)
+            print(*user_parameter)
 
-        user_parameter = get_input(num_params)
-        print(user_parameter)
-        print(*user_parameter)
+            result = selected_function(*user_parameter)
+            print(f"Command Executed: Returns - {result}\n")
 
-        result = selected_function(*user_parameter)
-        print(result)
-
-    else:
-        print("Invalid command")
+        else:
+            print("Invalid command")
 
 
 
