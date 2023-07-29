@@ -1,29 +1,8 @@
 import inspect
+from commands import functions
 
-import youtubeDownloaderFunctions as YTD
 
 
-# This is the dictionary that maps commands to functions, descriptions, and parameters
-functions = {
-    'MP': {
-        'function': YTD.download_multiple_playlists, 
-        'description': "This function downloads multiple playlists",
-        'default parameters': ['None'],
-        'needed parameters': ['While Loop -will need to type multiple playlist urls']
-    },
-    'SP': {
-        'function': YTD.download_playlist_webm_to_mp3, 
-        'description': "This function downloads a single playlist",
-        'default parameters': ['None'],
-        'needed parameters': ['single playlist url']
-    },
-    'S': {
-        'function': YTD.single_videoURL_webm_to_mp3_stream_Download, 
-        'description': "This function downloads a single video",
-        'default parameters': ['None'],
-        'needed parameters': ['single video url', "two commands", "three commands"]
-    }
-}
 
 def get_input(n):
         return [input(f"{functions[command]['description']}\nEnter {functions[command]['needed parameters'][parameter_index]}: ") for parameter_index in range(num_params)]
