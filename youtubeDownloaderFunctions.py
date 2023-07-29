@@ -423,6 +423,43 @@ def single_videoURL_webm_to_mp3_stream_Download(url):
     print("\nDone Downloading mp4 to mp3 audio Stream")
 
 
+###################################################
+# Any txt file list to python list to download
+###################################################
+def convertTxtFile_to_URL_List(file_path):
+    file_path = file_path.lstrip('\u202a')  # Remove the \u202a character from the start of the file path
+    txt_file_normilzed = os.path.normpath(file_path)
+    with open(txt_file_normilzed, 'r') as file:
+        content = file.readlines()
+    urls = [line.strip() for line in content if "https://youtube.com" in line]
+    return urls
+
+
+def download_and_convert_urls_from_txt(txt_file):
+    converted_urls = convertTxtFile_to_URL_List(txt_file)
+    for url in converted_urls:
+        single_videoURL_webm_to_mp3_stream_Download(url)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ########################################
 # THE YOUTUBE DOWNLOADER TESTERS
 ########################################
