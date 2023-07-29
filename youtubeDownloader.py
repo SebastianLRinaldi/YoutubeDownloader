@@ -26,7 +26,7 @@ functions = {
 }
 
 def get_input(n):
-        return [input(f"{functions[command]['description']}\nEnter {functions[command]['needed parameters'][i]}: ") for i in range(num_params)]
+        return [input(f"{functions[command]['description']}\nEnter {functions[command]['needed parameters'][parameter_index]}: ") for parameter_index in range(num_params)]
 
 
 # Call the appropriate function based on user choice
@@ -38,15 +38,15 @@ while not exit_command_received:
         exit_command_received = True
 
     elif command in functions:
-        func = functions[command]['function']
-        num_params = len(inspect.signature(func).parameters) # get number of parameters dynamically
+        selected_function = functions[command]['function']
+        num_params = len(inspect.signature(selected_function).parameters) # get number of parameters dynamically
         print(num_params)
 
         user_parameter = get_input(num_params)
         print(user_parameter)
         print(*user_parameter)
 
-        result = functions[command]['function'](*user_parameter)
+        result = selected_function(*user_parameter)
         print(result)
 
     else:
