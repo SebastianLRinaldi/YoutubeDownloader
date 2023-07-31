@@ -60,8 +60,8 @@ def download_multiple_playlists():
     user = ""
     playlist_count = len(playlist_urls)
 
-    print("\nType EXIT to start playlist downloads")
-    while user != "EXIT":
+    print("\nType stop to start playlist downloads")
+    while user != "stop":
         print("Enter URLS till you are done")
         user = input("INPUT: ")
         playlist_urls.append(user)

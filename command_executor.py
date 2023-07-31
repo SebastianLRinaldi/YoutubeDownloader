@@ -1,3 +1,4 @@
+import asyncio
 import inspect
 from command_mappings import functions
 
@@ -22,7 +23,14 @@ def execute_user_command():
             print(user_parameter)
             print(*user_parameter)
 
-            result = selected_function(*user_parameter)
+            # Check if the function is a coroutine function
+            if inspect.iscoroutinefunction(selected_function):
+                # If it is, use asyncio.run() to call it
+                result = asyncio.run(selected_function(*user_parameter))
+            else:
+                # If it's not, call it normally
+                result = selected_function(*user_parameter)
+            # result = selected_function(*user_parameter)
             print(f"Command Executed: Returns - {result}\n")
 
         else:
