@@ -30,7 +30,7 @@ def threaded_download_playlist(url):
     playlist_urls = playlist.video_urls
 
     # Download and convert all videos concurrently
-    with ThreadPoolExecutor() as executor:
+    with ThreadPoolExecutor(max_workers=16) as executor:
         # Pass the file path to download_and_convert function
         for url in playlist_urls:
             executor.submit(threaded_download_and_convert, url)
