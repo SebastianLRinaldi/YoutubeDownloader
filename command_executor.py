@@ -76,9 +76,6 @@ def  run_command(selected_function, *user_parameter):
             print(f"{colored(f'An error occurred: ', 'red')}{colored(f'{e}', 'light_cyan')}")
         except Exception as e:
             print(f"{colored(f'An unknown error occurred: ', 'red')}{colored(f'{e}', 'cyan')}")
-
-
-
     #print(f"Command Executed: Returns - {result}\n")
 
 
