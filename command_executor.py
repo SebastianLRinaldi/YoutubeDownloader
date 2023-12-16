@@ -1,21 +1,19 @@
 import asyncio
 import inspect
-from command_mappings import functions
-
-def get_input(num_params, command):
-        return [input(f"{functions[command]['description']}\nEnter {functions[command]['needed parameters'][parameter_index]}: ") for parameter_index in range(num_params)]
+from command_mappings import functions # functions is the entire dictionary that is in command_mappings
 
 def execute_user_command():
     # Call the appropriate function based on user choice
     # Get the user's choice
     exit_command_received = False
     while not exit_command_received: 
+        call_command('HELP')
         command = input("Enter a command (or 'exit' to quit): ")
-        if command.lower() == 'exit':
+        if command.lower() == 'exit' or command.lower() == 'quit':
             exit_command_received = True
 
-        elif command in functions:
-            selected_function = functions[command]['function']
+        elif command in functions: # if a command matches the name of a key-function pair in the command_mappings dictionary  
+            selected_function = functions[command]['function'] # dict[key][subkey] --> command_mappings[command_named_key][run_function_of_command]
             num_params = len(inspect.signature(selected_function).parameters) # get number of parameters dynamically
             print(num_params)
 
@@ -23,20 +21,53 @@ def execute_user_command():
             print(user_parameter)
             print(*user_parameter)
 
-            # Check if the function is a coroutine function
-            if inspect.iscoroutinefunction(selected_function):
-                # If it is, use asyncio.run() to call it
-                result = asyncio.run(selected_function(*user_parameter))
-            else:
-                # If it's not, call it normally
-                result = selected_function(*user_parameter)
-            # result = selected_function(*user_parameter)
-            print(f"Command Executed: Returns - {result}\n")
+            run_command(selected_function, *user_parameter)
 
         else:
             print("Invalid command")
 
+def get_input(num_params, command):
+        return [input(f"{functions[command]['description']}\nEnter {functions[command]['needed parameters'][parameter_index]}: ") for parameter_index in range(num_params)]
 
+def call_command(command):
+    selected_function, user_parameter = get_command(command)
+    run_command(selected_function, *user_parameter)
+
+
+def get_command(command):
+    selected_function = functions[command]['function'] # dict[key][subkey] --> command_mappings[command_named_key][run_function_of_command]
+    num_params = len(inspect.signature(selected_function).parameters) # get number of parameters dynamically
+    print(num_params)
+
+    user_parameter = get_input(num_params, command)
+    print(user_parameter)
+    #print(*user_parameter)
+    # https://careerkarma.com/blog/python-return-multiple-values/
+    return selected_function, user_parameter
+
+
+def  run_command(selected_function, *user_parameter):
+    # Check if the function is a coroutine function
+    if inspect.iscoroutinefunction(selected_function):
+        # If it is, use asyncio.run() to call it
+        result = asyncio.run(selected_function(*user_parameter))
+    else:
+        # If it's not, call it normally
+        result = selected_function(*user_parameter)
+    # result = selected_function(*user_parameter)
+    print(f"Command Executed: Returns - {result}\n")
+
+# def  run_command(selected_function, *user_parameter):
+#     # Check if the function is a coroutine function
+#     if inspect.iscoroutinefunction(selected_function):
+#         # If it is, use asyncio.run() to call it
+#         result = asyncio.run(selected_function(*user_parameter))
+#     else:
+#         # If it's not, call it normally
+#         result = selected_function(*user_parameter)
+#     # result = selected_function(*user_parameter)
+#     print(f"Command Executed: Returns - {result}\n")
+     
 
 
 # #Check for command in dictionary using if statements vs the try:catch

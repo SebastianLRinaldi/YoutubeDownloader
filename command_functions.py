@@ -153,8 +153,10 @@ def get_highest_mp4_stream(yt_object):
         print(f'Error with getting highest mp4  stream: {e}')
 
 def get_highest_webm_stream(yt_object):
+    print(f"ALL STREAMS ::: {yt_object.streams}")
     try:    
         # add in checks to see if higher version exist
+       
         yt_stream = yt_object.streams.get_by_itag(251)
         return yt_stream
 
@@ -334,6 +336,7 @@ def on_complete(new_save):
 ########################################
 def default_stream_download(stream, file_name=None):
     thumb_drive_path = 'F:\\NEWMUSICDUMP'
+    #thumb_drive_path = 'C:\\Users\\epics\\Downloads'
     result = None
     try: 
         if file_name is None:

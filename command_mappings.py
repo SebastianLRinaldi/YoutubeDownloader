@@ -47,6 +47,13 @@ functions = {
         'needed parameters': ['txt_file - path to the text file containing the URLs']
     },
 
+    'TEST': {
+        'function': CF.print_all_streams_from_url,
+        'description': "Function testing if pytube libary works this doesn't download just trys to get the stream",
+        'default parameters': ['None'],
+        'needed parameters': ['single video url']
+    },
+
     'HELP': {
         'function': lambda: MH.print_function_descriptions(functions),
         'description': 'This function provides help information',
