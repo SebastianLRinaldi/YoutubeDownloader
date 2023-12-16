@@ -19,16 +19,17 @@ def execute_user_command():
             call_command(command)
 
         else:
-            print('\n')
-            print(colored("Invalid command", 'red'))
-            help_messages()
+            invalid_command_entered(command)
 
 
 
 
 
 
-
+def invalid_command_entered(command):
+    print(colored(f"Invalid command was entered: {colored(f'{command}', 'light_cyan')}", 'red'))
+    print('\n')
+    help_messages()
 
 
 def help_messages():
