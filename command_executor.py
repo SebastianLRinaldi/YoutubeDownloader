@@ -6,7 +6,7 @@ from command_mappings import functions # functions is the entire dictionary that
 def execute_user_command():
     # Call the appropriate function based on user choice
     # Get the user's choice
-    start_up_help_messages()
+    help_messages()
     exit_command_received = False
     while not exit_command_received: 
 
@@ -19,7 +19,9 @@ def execute_user_command():
             call_command(command)
 
         else:
-            print("Invalid command")
+            print('\n')
+            print(colored("Invalid command", 'red'))
+            help_messages()
 
 
 
@@ -29,7 +31,7 @@ def execute_user_command():
 
 
 
-def start_up_help_messages():
+def help_messages():
     print(colored("===HERE ARE THE COMMANDS IN CASE YOU FORGOT===", 'light_magenta'))
     call_command('HELP')
 

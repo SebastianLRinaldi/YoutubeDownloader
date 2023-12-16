@@ -6,3 +6,4 @@
 def print_function_descriptions(function_dictionary):
     for key, value in function_dictionary.items():
         print(f"{key} - {value['description']}")
+    print("")
