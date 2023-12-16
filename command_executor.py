@@ -11,8 +11,9 @@ def execute_user_command():
     while not exit_command_received: 
 
         command = input(colored("Enter a command ('exit' or 'quit' to stop): ", 'green'))
-
-        if command.lower() in ['exit', 'quit']:
+        # faster way to check the membership of many words is to use command.lower() in set 
+        # 
+        if command.lower() in ['exit', 'quit']: #short hand is called membership testin and its idiomatic for python
             exit_command_received = True
 
         elif command in functions: # if a command matches the name of a key-function pair in the command_mappings dictionary  
