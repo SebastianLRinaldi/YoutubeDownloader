@@ -1,5 +1,6 @@
 import asyncio
 import inspect
+from termcolor import colored
 from command_mappings import functions # functions is the entire dictionary that is in command_mappings
 
 def execute_user_command():
@@ -58,11 +59,22 @@ def  run_command(selected_function, *user_parameter):
     # Check if the function is a coroutine function
     if inspect.iscoroutinefunction(selected_function):
         # If it is, use asyncio.run() to call it
-        result = asyncio.run(selected_function(*user_parameter))
+        try:
+            result = asyncio.run(selected_function(*user_parameter))
+        except AttributeError as e:
+            print(f"{colored(f'An error occurred: ', 'red')}{colored(f'{e}', 'light_cyan')}")
+        except Exception as e:
+            print(f"{colored(f'An unknown error occurred: ', 'red')}{colored(f'{e}', 'cyan')}")
     else:
         # If it's not, call it normally
+        try:
+            result = selected_function(*user_parameter)
+        except AttributeError as e:
+            print(f"{colored(f'An error occurred: ', 'red')}{colored(f'{e}', 'light_cyan')}")
+        except Exception as e:
+            print(f"{colored(f'An unknown error occurred: ', 'red')}{colored(f'{e}', 'cyan')}")
 
-        result = selected_function(*user_parameter)
+
 
     #print(f"Command Executed: Returns - {result}\n")
 
