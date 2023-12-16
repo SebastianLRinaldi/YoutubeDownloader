@@ -10,7 +10,7 @@ def execute_user_command():
     exit_command_received = False
     while not exit_command_received: 
 
-        command = input("Enter a command (or 'exit' to quit): ")
+        command = input(colored("Enter a command ('exit' or 'quit' to stop): ", 'green'))
 
         if command.lower() == 'exit' or command.lower() == 'quit':
             exit_command_received = True
@@ -30,7 +30,7 @@ def execute_user_command():
 
 
 def start_up_help_messages():
-    print("===HERE ARE THE COMMANDS IN CASE YOU FORGOT===")
+    print(colored("===HERE ARE THE COMMANDS IN CASE YOU FORGOT===", 'light_magenta'))
     call_command('HELP')
 
 

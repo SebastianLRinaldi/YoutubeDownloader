@@ -1,6 +1,8 @@
 import command_executor as CE
+from termcolor import colored
+
 def print_banner():
-    print("""
+    print(colored("""
 
 
             __     ______  _    _ _______ _    _ ____  ______                
@@ -20,7 +22,7 @@ def print_banner():
                                                                              
                                                                              
 
-    """)
+    """, 'light_red', attrs=['bold']) )
 
 
 
