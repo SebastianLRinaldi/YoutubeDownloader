@@ -12,7 +12,7 @@ def execute_user_command():
 
         command = input(colored("Enter a command ('exit' or 'quit' to stop): ", 'green'))
 
-        if command.lower() == 'exit' or command.lower() == 'quit':
+        if command.lower() in ['exit', 'quit']:
             exit_command_received = True
 
         elif command in functions: # if a command matches the name of a key-function pair in the command_mappings dictionary  
