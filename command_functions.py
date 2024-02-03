@@ -336,7 +336,7 @@ def on_complete(new_save):
 ########################################
 def default_stream_download(stream, file_name=None):
     thumb_drive_path = 'F:\\NEWMUSICDUMP'
-    #thumb_drive_path = 'C:\\Users\\epics\\Downloads'
+    thumb_drive_path_other = 'C:\\Users\\epics\\Downloads'
     result = None
     try: 
         if file_name is None:
@@ -347,6 +347,12 @@ def default_stream_download(stream, file_name=None):
         return result
     except(Exception) as e:
         print(f'Error with stream_download: {e}')
+        if file_name is None:
+            result = stream.download(output_path=thumb_drive_path_other)
+        elif file_name is not None:
+            result = stream.download(output_path=thumb_drive_path_other, file_name=file_name)
+        print("Download Stream Complete!\n")
+        return result
     finally:
         print("...\n")
 
