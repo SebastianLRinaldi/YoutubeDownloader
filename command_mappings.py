@@ -1,5 +1,5 @@
 import command_functions as CF
-import async_command_functions as ACF
+import multi_download_command_functions as ACF
 import mapper_helpers as MH
 
 # This is the dictionary that maps commands to functions, descriptions, and parameters
@@ -21,14 +21,14 @@ functions = {
 
     'TSP': {
         'function': ACF.threaded_download_playlist, 
-        'description': "This function downloads a single playlist with threads",
+        'description': "This function downloads a single playlist with threads - Gets some then Converts a lot at once then grabs more",
         'default parameters': ['None'],
         'needed parameters': ['single playlist url']
     },
 
     'ASP': {
         'function': ACF.async_download_playlist, 
-        'description': "This function downloads a single playlist asynchronously",
+        'description': "This function downloads a single playlist asynchronously - Gets all then converts one at a time",
         'default parameters': ['None'],
         'needed parameters': ['single playlist url']
     },

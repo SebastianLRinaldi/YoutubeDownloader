@@ -276,6 +276,12 @@ def convert_to_mp3(stream, yt_object):
         parent_dir = os.path.dirname(full_path)
         base = os.path.basename(full_path)
         new_base_name = f"{base}-{itag}-{file_type}-{bitrate}"
+        """
+        Need to make this an optional thing to do
+        Need to also make it an option to store that info in the details of the file
+        so that it can be there regardless (really only a speed thing)
+        """
+        # new_base_name = f"{base}"
 
         new_file_name = f"{new_base_name}.mp3"
         new_file_path = os.path.join(parent_dir, new_file_name)
