@@ -60,8 +60,8 @@ def download_multiple_playlists():
     user = ""
     playlist_count = len(playlist_urls)
 
-    print("\nType EXIT to start playlist downloads")
-    while user != "EXIT":
+    print("\nType stop to start playlist downloads")
+    while user != "stop":
         print("Enter URLS till you are done")
         user = input("INPUT: ")
         playlist_urls.append(user)
@@ -153,8 +153,10 @@ def get_highest_mp4_stream(yt_object):
         print(f'Error with getting highest mp4  stream: {e}')
 
 def get_highest_webm_stream(yt_object):
+    print(f"ALL STREAMS ::: {yt_object.streams}")
     try:    
         # add in checks to see if higher version exist
+       
         yt_stream = yt_object.streams.get_by_itag(251)
         return yt_stream
 
@@ -274,6 +276,12 @@ def convert_to_mp3(stream, yt_object):
         parent_dir = os.path.dirname(full_path)
         base = os.path.basename(full_path)
         new_base_name = f"{base}-{itag}-{file_type}-{bitrate}"
+        """
+        Need to make this an optional thing to do
+        Need to also make it an option to store that info in the details of the file
+        so that it can be there regardless (really only a speed thing)
+        """
+        # new_base_name = f"{base}"
 
         new_file_name = f"{new_base_name}.mp3"
         new_file_path = os.path.join(parent_dir, new_file_name)
@@ -334,6 +342,7 @@ def on_complete(new_save):
 ########################################
 def default_stream_download(stream, file_name=None):
     thumb_drive_path = 'F:\\NEWMUSICDUMP'
+    thumb_drive_path_other = 'C:\\Users\\epics\\Downloads'
     result = None
     try: 
         if file_name is None:
@@ -344,6 +353,12 @@ def default_stream_download(stream, file_name=None):
         return result
     except(Exception) as e:
         print(f'Error with stream_download: {e}')
+        if file_name is None:
+            result = stream.download(output_path=thumb_drive_path_other)
+        elif file_name is not None:
+            result = stream.download(output_path=thumb_drive_path_other, file_name=file_name)
+        print("Download Stream Complete!\n")
+        return result
     finally:
         print("...\n")
 
