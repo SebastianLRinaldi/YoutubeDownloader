@@ -475,47 +475,47 @@ def download_and_convert_urls_from_txt(txt_file):
 
 
 
-########################################
-# THE YOUTUBE DOWNLOADER TESTERS
-########################################
-def test1():
-    # youtube_object = load_yt_object_by_playlist_url("")
-    # get_yt_url_from_playlist_object(youtube_object)
-    youtube_object = single_url_to_yt_object("https://www.youtube.com/watch?v=tBHzkpoFl2c")
+# ########################################
+# # THE YOUTUBE DOWNLOADER TESTERS
+# ########################################
+# def test1():
+#     # youtube_object = load_yt_object_by_playlist_url("")
+#     # get_yt_url_from_playlist_object(youtube_object)
+#     youtube_object = single_url_to_yt_object("https://www.youtube.com/watch?v=tBHzkpoFl2c")
 
-    youtube_stream = get_highest_audio_stream_from_itag(youtube_object)
+#     youtube_stream = get_highest_audio_stream_from_itag(youtube_object)
 
-    stream_to_a_download(youtube_stream, yt_object=youtube_object, mp3_only=True)
+#     stream_to_a_download(youtube_stream, yt_object=youtube_object, mp3_only=True)
 
 
 
-########################################
-# THE YOUTUBE DOWNLOADER COMMANDS DRAFT
-########################################
-def startProgram():
-    commands_and_uses = {
-        "MP" : "Multiple Playlists Download",
-        "SP" : "Single Playlist Download",
-        "S" : "Single Video Download",
+# ########################################
+# # THE YOUTUBE DOWNLOADER COMMANDS DRAFT
+# ########################################
+# def startProgram():
+#     commands_and_uses = {
+#         "MP" : "Multiple Playlists Download",
+#         "SP" : "Single Playlist Download",
+#         "S" : "Single Video Download",
 
-    }
+#     }
 
-    user = input("INPUT: ")
+#     user = input("INPUT: ")
 
-    while user != "EXIT":
-        if user == "commands":
-            print("---- Commands ----\n")
-            for command in commands_and_uses:
-                print(f"\tKey: {command}, Description: {commands_and_uses[command]}")
-            print("---- End Commands ----\n")
+#     while user != "EXIT":
+#         if user == "commands":
+#             print("---- Commands ----\n")
+#             for command in commands_and_uses:
+#                 print(f"\tKey: {command}, Description: {commands_and_uses[command]}")
+#             print("---- End Commands ----\n")
 
-        elif user == "SP":
-            user = input("Enter URL: ")
-            download_playlist_webm_to_mp3(user)
+#         elif user == "SP":
+#             user = input("Enter URL: ")
+#             download_playlist_webm_to_mp3(user)
         
-        else:
-            print("INVALID COMMAND")
+#         else:
+#             print("INVALID COMMAND")
 
-########################################
-# THE YOUTUBE DOWNLOADER MAIN
-########################################
+# ########################################
+# # THE YOUTUBE DOWNLOADER MAIN
+# ########################################

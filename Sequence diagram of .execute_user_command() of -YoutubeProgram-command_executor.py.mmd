@@ -1,0 +1,42 @@
+
+%%{init: {'theme':'forest'}}%%
+
+sequenceDiagram
+
+    Title Sequence diagram of .execute_user_command() of /YoutubeProgram/command_executor.py
+
+    participant p1 as execute_user_command()<br>:command_executor.py
+    participant p2 as <br>:command_executor.py
+
+
+	p1 ->>+ p2: 1: help_messages()
+	p2 ->>+ p2: 1.1: call_command('HELP')
+	p2 ->>+ p2: 1.1.1: find_command(command)
+	p2 ->>+ p2: 1.1.1.1: get_input(num_params, command)
+	p2 -->>- p2: 1.1.1.1: return value
+	p2 -->>- p2: 1.1.1: return value
+	p2 ->>+ p2: 1.1.2: run_command(selected_function, *user_parameter)
+	p2 -->>- p2: 1.1.2: return value
+	p2 -->>- p2: 1.1: return value
+	p2 -->>- p1: 1: return value
+	p1 ->>+ p2: 2: call_command(command)
+	p2 ->>+ p2: 2.1: find_command(command)
+	p2 ->>+ p2: 2.1.1: get_input(num_params, command)
+	p2 -->>- p2: 2.1.1: return value
+	p2 -->>- p2: 2.1: return value
+	p2 ->>+ p2: 2.2: run_command(selected_function, *user_parameter)
+	p2 -->>- p2: 2.2: return value
+	p2 -->>- p1: 2: return value
+	p1 ->>+ p2: 3: invalid_command_entered(command)
+	p2 ->>+ p2: 3.1: help_messages()
+	p2 ->>+ p2: 3.1.1: call_command('HELP')
+	p2 ->>+ p2: 3.1.1.1: find_command(command)
+	p2 ->>+ p2: 3.1.1.1.1: get_input(num_params, command)
+	p2 -->>- p2: 3.1.1.1.1: return value
+	p2 -->>- p2: 3.1.1.1: return value
+	p2 ->>+ p2: 3.1.1.2: run_command(selected_function, *user_parameter)
+	p2 -->>- p2: 3.1.1.2: return value
+	p2 -->>- p2: 3.1.1: return value
+	p2 -->>- p2: 3.1: return value
+	p2 -->>- p1: 3: return value
+        
