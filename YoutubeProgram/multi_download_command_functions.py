@@ -1,11 +1,18 @@
+'''
+NEED TO MAKE IT SO THAT A PLAYLIST GETS PUT INTO ITS OWN FOLDER
+
+'''
+
+
+
+from DownloadLocation.download_Location_Manger import *
 import os
 from pytube import YouTube, Playlist
 from moviepy.editor import AudioFileClip
 from concurrent.futures import ThreadPoolExecutor
 
-def threaded_download_and_convert(url):
+def threaded_download_and_convert(url, filepath):
     # Download the video
-    filepath = 'F:\\NEWMUSICDUMP'
     yt = YouTube(url)
     stream = yt.streams.get_by_itag(251)
     filename = stream.default_filename
@@ -23,6 +30,8 @@ def threaded_download_and_convert(url):
     os.remove(os.path.join(filepath, filename))
 
 def threaded_download_playlist(url):
+    filepath = get_default_download_location()
+
     # Get the playlist
     playlist = Playlist(url)
 
@@ -33,7 +42,7 @@ def threaded_download_playlist(url):
     with ThreadPoolExecutor(max_workers=16) as executor:
         # Pass the file path to download_and_convert function
         for url in playlist_urls:
-            executor.submit(threaded_download_and_convert, url)
+            executor.submit(threaded_download_and_convert, url, filepath)
 
 
 
@@ -44,9 +53,8 @@ import os
 from pytube import YouTube, Playlist
 from moviepy.editor import AudioFileClip
 
-async def async_download_and_convert(session, url):
+async def async_download_and_convert(session, url, filepath):
     # Download the video
-    filepath = 'F:\\NEWMUSICDUMP'
     yt = YouTube(url)
     stream = yt.streams.first()
     filename = stream.default_filename
@@ -72,6 +80,8 @@ async def async_download_and_convert(session, url):
 
 
 async def async_download_playlist(url):
+    filepath = get_default_download_location()
+
     # Get the playlist
     playlist = Playlist(url)
 
@@ -80,7 +90,7 @@ async def async_download_playlist(url):
 
     # Download and convert all videos concurrently
     async with aiohttp.ClientSession() as session:
-        tasks = [async_download_and_convert(session, url) for url in playlist_urls]
+        tasks = [async_download_and_convert(session, url, filepath) for url in playlist_urls]
         await asyncio.gather(*tasks)
 
 # async def start_download_playlist(playlist_url):

@@ -16,9 +16,13 @@
 from pytube import YouTube
 from pytube import Playlist
 from mutagen import File
+from mutagen.easyid3 import EasyID3
+from mutagen.mp3 import MP3
+from mutagen.id3 import ID3, COMM
 from moviepy.editor import VideoFileClip
 from moviepy.editor import AudioFileClip
 import os
+from DownloadLocation.download_Location_Manger import *
 
 os.system('cls')
 
@@ -28,15 +32,14 @@ os.system('cls')
 # GETTING A YOUTUBE OBJECT FROM A SINGLE URL
 ########################################
 def single_url_to_yt_object(url):
+    print("...")
     try: 
         # yt_object_to_download = YouTube('https://www.youtube.com/watch?v=dINNh9Dh5Ug&t=31s') #.bypass_age_gate()
         yt_object = YouTube(url) #.bypass_age_gate()
-        print("Grabbed the YouTube Object")
+        print("YouTube Object - Found")
         return yt_object
     except(Exception) as e:
         print(f'Error with loading yt_object: {e}')
-    finally:
-        print("...\n")
     
 
 ########################################
@@ -150,10 +153,10 @@ def get_highest_mp4_stream(yt_object):
 
     except(Exception) as e:
         # raise Exception ("THERE WAS AN ERROR HERE!")
-        print(f'Error with getting highest mp4  stream: {e}')
+        print(f'Error with getting highest mp4 stream: {e}')
 
 def get_highest_webm_stream(yt_object):
-    print(f"ALL STREAMS ::: {yt_object.streams}")
+    # print(f"ALL STREAMS ::: {yt_object.streams}")
     try:    
         # add in checks to see if higher version exist
        
@@ -250,27 +253,57 @@ def convert_mp4_to_mp3(input_path_mp4, output_path_mp3):
     audioclip.write_audiofile(output_path_mp3, bitrate="192k")
     audioclip.close()
     videoclip.close()
+    print("mp4_to_mp3 conversion - Complete")
 
 def convert_webm_to_mp3(input_path_webm, output_path_mp3):
     audio_clip = AudioFileClip(input_path_webm)
     audio_clip.write_audiofile(output_path_mp3, bitrate="160k")
     audio_clip.close()
+    print("webm_to_mp3 conversion - Complete")
 
 
 ########################################
 # CONVERT FUNCTIONS FOR DOWNLOADING TASK
 ########################################
-def convert_to_mp3(stream, yt_object):
-    out_file = default_stream_download(stream)
+def update_metadata(new_file_path, yt_title, encoded, debug_meta_data):
     try:
+        audio = MP3(new_file_path, ID3=EasyID3)
+        # print(EasyID3.valid_keys.keys())
+        audio.tags['title'] = yt_title
+        audio.tags['encodedby'] = encoded
+        audio.save()
+        id3v2_3 = ID3(new_file_path)
+        id3v2_3["COMM"] = COMM(encoding=3, lang='eng', desc='ID3v1 Comment', text=debug_meta_data)
+        id3v2_3.save(new_file_path, v2_version=3, v1=2)
+    except(Exception) as e:
+        print(f'Error with updating metadata: {e}')
+
+def get_metadata(stream, yt_object):
+    try:
+        yt_title = yt_object.title
         itag = stream.itag
         bitrate = stream.abr
-        yt_title = yt_object.title
-
+        encoding = stream.audio_codec
         # File type can also be gotten from the ext split tex
         # File type returns "txt", ext returns ".txt"
         file_type = stream.mime_type.split("/")[-1]
 
+        debug_meta_data = f"Itag:{itag}\nStreamType:{file_type}\nBitRate:{bitrate}\nAudioEncoding:{encoding}"
+
+        return {
+            'yt_title': yt_title, 
+            'itag':itag,
+            'file_type':file_type, 
+            'bitrate':bitrate,
+            'encoding': encoding,
+            'debug_meta_data': debug_meta_data
+            }
+
+    except(Exception) as e:
+        print(f'Error with getting metadata: {e}')
+            
+    
+def update_path_info(out_file, itag, file_type, bitrate):
         # save the file
         full_path, ext = os.path.splitext(out_file)
         parent_dir = os.path.dirname(full_path)
@@ -286,40 +319,36 @@ def convert_to_mp3(stream, yt_object):
         new_file_name = f"{new_base_name}.mp3"
         new_file_path = os.path.join(parent_dir, new_file_name)
 
-        print(f"OUT FILE: {out_file}") # Need this
-        print(f"FULL DIR PATH: {full_path}")
-        print(f"PARENT DIR: {parent_dir}")
-        print(f"BASE NAME: {base}")
-        print(f"BASE FILE TYPE: {ext}\n")
-        print(f"New File Name: {new_file_name}")
-        print(f"NEW BASE NAME: {new_base_name}")
-        print(f"NEW FILE PATH: {new_file_path}") # Need this
+        # print(f"OUT FILE: {out_file}") # Need this
+        # print(f"FULL DIR PATH: {full_path}")
+        # print(f"PARENT DIR: {parent_dir}")
+        # print(f"BASE NAME: {base}")
+        # print(f"BASE FILE TYPE: {ext}\n")
+        # print(f"New File Name: {new_file_name}")
+        # print(f"NEW BASE NAME: {new_base_name}")
+        # print(f"NEW FILE PATH: {new_file_path}") # Need this
 
-        try: 
-            if file_type == "mp4":
-                convert_mp4_to_mp3(out_file, new_file_path)
-            elif file_type == "webm":
-                convert_webm_to_mp3(out_file, new_file_path)
+        return new_file_path
 
-            if os.path.exists(out_file):
-                os.remove(out_file)
-                print("base file deleted!")
-            else:
-                print(f"File not found: {out_file}")
-            
-        except(Exception) as e:
-            print(f'Error stream converting or deleting downloading: {e}')
 
-        # ! When a file already exists it still saves it but without changing the file type
+def convert_to_mp3(file_type, out_file, new_file_path):
+    try: 
+        if file_type == "mp4":
+            convert_mp4_to_mp3(out_file, new_file_path)
+        elif file_type == "webm":
+            convert_webm_to_mp3(out_file, new_file_path)
 
+        if os.path.exists(out_file):
+            os.remove(out_file)
+            print(f"{file_type} base file - Deleted")
+        else:
+            print(f"File not found: {out_file}")
+        
     except(Exception) as e:
-        print(f'Error with edit_and_save_new_file_name: {e}')
-    
-    finally:
-            return {'yt_title': yt_title, 
-            'file_type':file_type, 
-            'itag':itag, 
-            'bitrate':bitrate}
+        print(f'Error stream converting or deleting downloading: {e}')
+
+    # ! When a file already exists it still saves it but without changing the file type
+
 
 
 
@@ -331,7 +360,7 @@ def on_complete(new_save):
     BiteRate = new_save['bitrate']
     FileType = new_save['file_type']
     Itag = new_save['itag']
-    print(f"Successfully downloaded {Itag}-{BiteRate}-{YouTubeTitle} with file type {FileType} as a MP3 file!\n")
+    print(f"Successfully downloaded {YouTubeTitle}\n Converted from yt.stream with {Itag}-{BiteRate}-{FileType} into a MP3 file!\n...")
 
 
 ########################################
@@ -341,26 +370,27 @@ def on_complete(new_save):
 # STREAM DONWLOAD
 ########################################
 def default_stream_download(stream, file_name=None):
-    thumb_drive_path = 'F:\\NEWMUSICDUMP'
-    thumb_drive_path_other = 'C:\\Users\\epics\\Downloads'
+    thumb_drive_path = get_default_download_location()
+    thumb_drive_path_other = get_fallback_location()
     result = None
+    '''
+    NEED TO MAKE THIS A BETTER ERROR HANDLING FOR NOT FINDING THE THUMBDRIVE
+    '''
     try: 
         if file_name is None:
             result = stream.download(output_path=thumb_drive_path)
         elif file_name is not None:
             result = stream.download(output_path=thumb_drive_path, file_name=file_name)
-        print("Download Stream Complete\n")
+        print("Downloaded Stream to thumbdrive - Complete")
         return result
     except(Exception) as e:
-        print(f'Error with stream_download: {e}')
+        print(f'There was an Error with stream_download to default path!\nTrying to download to fallback location: {thumb_drive_path_other}\n {e}')
         if file_name is None:
             result = stream.download(output_path=thumb_drive_path_other)
         elif file_name is not None:
             result = stream.download(output_path=thumb_drive_path_other, file_name=file_name)
-        print("Download Stream Complete!\n")
+        print("Downloaded Stream to thumbdrive - Complete")
         return result
-    finally:
-        print("...\n")
 
 
 def stream_to_a_download(stream, 
@@ -385,8 +415,20 @@ def stream_to_a_download(stream,
 
         elif yt_object is not None and mp3_only is True:
             # Download base file in youtubes format 
-            new_save = convert_to_mp3(stream, yt_object)
-            on_complete(new_save)
+            out_file = default_stream_download(stream)
+            audio_metadata = get_metadata(stream, yt_object)
+
+            YouTubeTitle = audio_metadata['yt_title']
+            BitRate = audio_metadata['bitrate']
+            FileType = audio_metadata['file_type']
+            Itag = audio_metadata['itag']
+            Encoding = audio_metadata['encoding']
+            debug_meta_data = audio_metadata['debug_meta_data']
+
+            new_file_path = update_path_info(out_file, Itag, FileType, BitRate)
+            convert_to_mp3(FileType, out_file, new_file_path)
+            update_metadata(new_file_path, YouTubeTitle, Encoding, debug_meta_data)
+            on_complete(audio_metadata)
             
 
         # elif yt_object is not None and mp3_only is True:
@@ -396,12 +438,8 @@ def stream_to_a_download(stream,
         else:
             # default_stream_download()
             print("Else condition with Default download ")
-        print("Successfully downloaded this Stream\n")
     except(Exception) as e:
-        print(f'Error with making a stream into a downloading: {e}')
-    
-    finally:
-        print("...\n")
+        print(f'Error with making a stream into a proper download: {e}')
 
 
 
@@ -428,14 +466,13 @@ def single_videoURL_mp4_to_mp3_stream_Download(url):
     yt_object = single_url_to_yt_object(url)
     stream = get_highest_mp4_stream(yt_object)
     stream_to_a_download(stream, yt_object=yt_object, mp3_only=True)
-    print("\nDone Downloading mp4 to mp3 audio Stream")
+
 
 def single_videoURL_webm_to_mp3_stream_Download(url):
-    print(f"THISURL: {url}")
     yt_object = single_url_to_yt_object(url)
     stream = get_highest_webm_stream(yt_object)
     stream_to_a_download(stream, yt_object=yt_object, mp3_only=True)
-    print("\nDone Downloading mp4 to mp3 audio Stream")
+    
 
 
 ###################################################
