@@ -1,8 +1,20 @@
 '''
 NEED TO MAKE IT SO THAT A PLAYLIST GETS PUT INTO ITS OWN FOLDER
-
 '''
 
+'''
+We only put the best, easest, quickest, streams and download processes from the command_functions here
+do reuse functions from command_functions too much of a head ache (treat them as insperation for how to do it here)
+'''
+
+'''
+Run in debug mode with break on errors and some maybe all the videos get a os.remove? error? 
+'''
+
+'''
+Sort videos by duration, do the shortest ones first? 
+Could also limit the videos that do download to only less than 20mins so if a reamdon playlist has long ones it would not do them
+'''
 
 
 from DownloadLocation.download_Location_Manger import *
@@ -46,7 +58,9 @@ def threaded_download_playlist(url):
 
 
 
-
+'''
+Why am I getting the first stream instead of by itag for async
+'''
 import aiohttp
 import asyncio
 import os

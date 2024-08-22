@@ -5,20 +5,6 @@ import mapper_helpers as MH
 # This is the dictionary that maps commands to functions, descriptions, and parameters
 functions = {
 
-    'MP': {
-        'function': CF.download_multiple_playlists, 
-        'description': "This function downloads multiple playlists",
-        'default parameters': ['None'],
-        'needed parameters': ['While Loop -will need to type multiple playlist urls']
-    },
-
-    'SP': {
-        'function': CF.download_playlist_webm_to_mp3, 
-        'description': "This function downloads a single playlist",
-        'default parameters': ['None'],
-        'needed parameters': ['single playlist url']
-    },
-
     'TSP': {
         'function': ACF.threaded_download_playlist, 
         'description': "This function downloads a single playlist with threads - Gets some then Converts a lot at once then grabs more",
@@ -29,6 +15,20 @@ functions = {
     'ASP': {
         'function': ACF.async_download_playlist, 
         'description': "This function downloads a single playlist asynchronously - Gets all then converts one at a time",
+        'default parameters': ['None'],
+        'needed parameters': ['single playlist url']
+    },
+
+    'MP': {
+        'function': CF.download_multiple_playlists, 
+        'description': "This function downloads multiple playlists",
+        'default parameters': ['None'],
+        'needed parameters': ['While Loop -will need to type multiple playlist urls']
+    },
+
+    'SP': {
+        'function': CF.download_playlist_webm_to_mp3, 
+        'description': "This function downloads a single playlist",
         'default parameters': ['None'],
         'needed parameters': ['single playlist url']
     },
