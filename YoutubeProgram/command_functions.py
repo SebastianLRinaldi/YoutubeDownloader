@@ -13,8 +13,10 @@
 # TODO Multiple load bars that show progress for each action per video, getting objects, downloading, converting..etc 
 # * https://www.geeksforgeeks.org/download-video-in-mp3-format-using-pytube/#
 
-from pytube import YouTube
-from pytube import Playlist
+# from pytube import YouTube
+# from pytube import Playlist
+from pytubefix import YouTube
+from pytubefix import Playlist
 from mutagen import File
 from mutagen.easyid3 import EasyID3
 from mutagen.mp3 import MP3

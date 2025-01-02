@@ -16,6 +16,10 @@ Sort videos by duration, do the shortest ones first?
 Could also limit the videos that do download to only less than 20mins so if a reamdon playlist has long ones it would not do them
 '''
 
+'''
+Should add a command tha opens a specturm anaylers on the web and the Spec app
+'''
+
 
 from DownloadLocation.download_Location_Manger import *
 import os
@@ -36,7 +40,7 @@ def threaded_download_and_convert(url, filepath):
 
     # Convert to MP3
     clip = AudioFileClip(os.path.join(filepath, filename))
-    clip.write_audiofile(os.path.join(filepath, filename_without_ext + ".mp3"))
+    clip.write_audiofile(os.path.join(filepath, filename_without_ext + ".mp3"),bitrate="320k")
 
     # Delete the original video file
     os.remove(os.path.join(filepath, filename))

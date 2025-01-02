@@ -61,3 +61,37 @@ functions = {
         'needed parameters': []
     }
 }
+
+
+'''
+5. Python Files with dataclass or NamedTuple
+Pros:
+Use Python's native capabilities to define clear, structured data types.
+Provides type safety and can include methods for data manipulation.
+
+Cons:
+Less flexible than a dictionary for dynamic configurations.
+Requires Python knowledge to understand and modify.
+Example:
+
+
+from dataclasses import dataclass
+from typing import List, Callable
+
+@dataclass
+class FunctionConfig:
+    function: Callable
+    description: str
+    default_parameters: List[str]
+    needed_parameters: List[str]
+
+functions = {
+    'TSP': FunctionConfig(
+        function=ACF.threaded_download_playlist,
+        description="This function downloads a single playlist with threads...",
+        default_parameters=["None"],
+        needed_parameters=["single playlist url"]
+    ),
+    ...
+}
+'''
