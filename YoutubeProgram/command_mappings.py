@@ -41,8 +41,8 @@ functions = {
     },
 
     'TXT2URL': {
-        'function': CF.download_and_convert_urls_from_txt,
-        'description': "This function downloads and converts URLs from a text file",
+        'function': ACF.threaded_download_list_of_urls,
+        'description': "Converts URLs from a text file, downloads them via threading",
         'default parameters': ['txt_file'],
         'needed parameters': ['txt_file - path to the text file containing the URLs']
     },

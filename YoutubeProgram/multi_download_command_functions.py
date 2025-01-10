@@ -59,6 +59,28 @@ def threaded_download_playlist(url):
         # Pass the file path to download_and_convert function
         for url in playlist_urls:
             executor.submit(threaded_download_and_convert, url, filepath)
+            
+
+
+def convertTxtFile_to_URL_List(file_path):
+    file_path = file_path.lstrip('\u202a')  # Remove the \u202a character from the start of the file path
+    txt_file_normilzed = os.path.normpath(file_path)
+    with open(txt_file_normilzed, 'r') as file:
+        content = file.readlines()
+    urls = [line.strip() for line in content if "https://youtube.com" in line]
+    return urls
+
+
+def threaded_download_list_of_urls(txt_file):
+    filepath = get_default_download_location()
+    
+    converted_urls = convertTxtFile_to_URL_List(txt_file)
+
+    # Download and convert all videos concurrently
+    with ThreadPoolExecutor(max_workers=16) as executor:
+        # Pass the file path to download_and_convert function
+        for url in converted_urls:
+            executor.submit(threaded_download_and_convert, url, filepath)
 
 
 
